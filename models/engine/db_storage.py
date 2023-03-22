@@ -8,6 +8,10 @@ from sqlalchemy.orm import (scoped_session)
 from sqlalchemy import (create_engine)
 from models.state import State
 from models.city import City
+from models.user import User
+from models.place import Place
+from models.review import Review
+from models.amenity import Amenity
 
 env = getenv('HBNB_ENV')
 u = getenv('HBNB_MYSQL_USER')
@@ -16,8 +20,12 @@ h = getenv('HBNB_MYSQL_HOST')
 db = getenv('HBNB_MYSQL_DB')
 
 classes = {
-    'State': State,
+    'Amenity': Amenity,
     'City': City,
+    'Place': Place,
+    'Review': Review,
+    'State': State,
+    'User': User
 }
 
 
