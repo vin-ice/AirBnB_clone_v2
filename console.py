@@ -4,6 +4,12 @@ import cmd
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
@@ -12,6 +18,11 @@ class HBNBCommand(cmd.Cmd):
     # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
+    classes = {
+        'BaseModel': BaseModel, 'User': User, 'Place': Place,
+        'State': State, 'City': City, 'Amenity': Amenity,
+        'Review': Review
+    }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
         'number_rooms': int, 'number_bathrooms': int,
@@ -110,10 +121,11 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        elif self.__getMClass(classname) is None:
+        elif classname not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = self.__getMClass(classname)()
+
+        new_instance = HBNBCommand.classes[classname]()
         for i in range(1, len(params)):
             # Separate key and value into a tuple
             attributes = params[i].partition("=")
@@ -161,7 +173,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        if self.__getMClass(c_name) is None:
+        if c_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
 
@@ -192,7 +204,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        if self.__getMClass(c_name) is None:
+        if c_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
 
@@ -219,7 +231,7 @@ class HBNBCommand(cmd.Cmd):
 
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
-            if self.__getMClass(args) is None:
+            if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
             for k, v in storage.all(args).items():
@@ -259,7 +271,7 @@ class HBNBCommand(cmd.Cmd):
         else:  # class name not present
             print("** class name missing **")
             return
-        if self.__getMClass(c_name) is None:  # class name invalid
+        if c_name not in HBNBCommand.classes:  # class name invalid
             print("** class doesn't exist **")
             return
 
@@ -335,34 +347,6 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
-
-    def __getMClass(self, cls=None):
-        """
-        Returns a class given a string/name
-        attr
-            cls (str): Class name
-        """
-        from models.state import State
-        from models.city import City
-        from models.user import User
-        from models.place import Place
-        from models.amenity import Amenity
-        from models.review import Review
-
-        classes = {
-            'Amenity': Amenity,
-            'BaseModel': BaseModel,
-            'City': City,
-            'Place': Place,
-            'Review': Review,
-            'State': State,
-            'User': User,
-        }
-
-        if isinstance(cls, str) and cls in classes:
-            return classes[cls]
-        else:
-            return None
 
 
 if __name__ == "__main__":

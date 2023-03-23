@@ -13,12 +13,6 @@ from models.place import Place
 from models.review import Review
 from models.amenity import Amenity
 
-env = getenv('HBNB_ENV')
-u = getenv('HBNB_MYSQL_USER')
-p = getenv('HBNB_MYSQL_PWD')
-h = getenv('HBNB_MYSQL_HOST')
-db = getenv('HBNB_MYSQL_DB')
-
 classes = {
     'Amenity': Amenity,
     'City': City,
@@ -40,6 +34,11 @@ class DBStorage:
         """
         Creates engine for sql
         """
+        u = getenv('HBNB_MYSQL_USER')
+        p = getenv('HBNB_MYSQL_PWD')
+        h = getenv('HBNB_MYSQL_HOST')
+        db = getenv('HBNB_MYSQL_DB')
+        env = getenv('HBNB_ENV')
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}:3306/{}'
                                       .format(u, p, h, db),
                                       pool_pre_ping=True)
@@ -62,8 +61,8 @@ class DBStorage:
         else:
             # query all types of objects (User, State, City, Amenity, Place and
             # Review
-            for _cls in classes.values():
-                for obj in self.__session.query(_cls).all():
+            for cls in classes.values():
+                for obj in self.__session.query(cls).all():
                     key = obj.__class__.__name__ + "." + obj.id
                 objs[key] = obj
         return objs
