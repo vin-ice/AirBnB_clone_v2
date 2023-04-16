@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # install nginx if not installed
 apt-get -y update
-apt-get -y install -y nginx
+apt-get -y install nginx
 
 # create /data/ folder
 mkdir -p /data/web_static/releases/test/ /data/web_static/shared
