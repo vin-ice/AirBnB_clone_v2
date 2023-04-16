@@ -3,13 +3,12 @@
 Creates and distributes an archive to webservers
 """
 from datetime import datetime
-from fabric.api import env, local, put, run, runs_once
-from os.path import isdir, exists, basename, join
+from fabric.api import env, local, put, run
+from os.path import isdir, exists, basename, join, splitext
 from os import mkdir, sep
 env.hosts = ['3.84.239.19', '18.210.33.168']
 
 
-@runs_once
 def do_pack():
     """Archives static files"""
     if not isdir("versions"):
@@ -22,7 +21,6 @@ def do_pack():
     except Exception:
         return None
 
-
 def do_deploy(archive_path):
     """
     Distributes archive files from exe 1 to server
@@ -31,28 +29,29 @@ def do_deploy(archive_path):
         return False
     f_name = basename(archive_path)
     path = join(sep, "data", "web_static", "releases")
-    dest = join(path, f_name.split(".")[0])
+    dest = join(path, splitext(f_name)[0])
+    tmp = join(sep, "tmp", f_name)
+    cur = join(sep, "data", "web_static", "current")
     try:
-        put(archive_path, "{}".format(join(sep, "tmp", f_name)))
-        run("mkdir -p {}".format(path))
-        run("tar -xzf {} -C {}".format(join(sep, "tmp", f_name), dest))
-        run("rm -rf {}".format(f_name))
-        run("mv {}/web_static/* {}".format(dest, dest))
-        run("rm -rf {}/web_static".format(dest))
-        run("rm -rf {}".format(join(sep, "data", "web_static", "current")))
-        run("ln -s {} {}".format(dest, join(sep,
-                                            "data", "web_static", "current")))
+        put(archive_path, "{}".format(tmp))
+        run("mkdir -p {}/".format(join(dest)))
+        run("tar -xzf {} -C {}/".format(tmp, dest))
+        run("rm {}".format(tmp))
+        run("mv {} {}/".format(join(dest, "web_static", "*"), dest))
+        run("rm -rf {}".format(join(dest, "web_static")))
+        run("rm -rf {}".format(cur))
+        run("ln -s {}/ {}".format(dest, cur))
+        print("New version deployed!")
         return True
     except Exception:
         return False
-
 
 def deploy():
     """
     Archives and deploys static files
     """
     archive_path = do_pack()
-    if archive_path:
-        return do_deploy(archive_path=archive_path)
-    else:
+    try:
+       return do_deploy(archive_path=archive_path)
+    except:
         return False
