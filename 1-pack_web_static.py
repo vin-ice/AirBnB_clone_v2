@@ -5,7 +5,7 @@ Generates a .tgz archive from web_static
 from datetime import datetime
 from fabric.api import local
 from os.path import isdir
-from os.path import join 
+from os.path import join
 
 
 def do_pack():

@@ -8,8 +8,8 @@ fi
 
 # create /data/ folder
 if [ ! -d /data ]; then
-    sudo mkdir -p /data
     sudo mkdir -p /data/web_static/releases/test/ /data/web_static/shared
+    sudo chown -R $USER:$USER /data
 fi
 
 # create index.html
@@ -17,13 +17,13 @@ echo -e "<html>\n  <head>\n\t<title>Nginx Test</title>\n  </head>\n  <body>\n\t<
 
 # symbolic link
 if [ -h /data/web_static/current ]; then
-    sudo rm -f /data/web_static/current
+    rm -f /data/web_static/current
 fi
-sudo ln -s /data/web_static/releases/test /data/web_static/current
-sudo chown -R $USER:$USER /data
+ln -s /data/web_static/releases/test/ /data/web_static/current
+
 
 # configure location
-sed -i '38i\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t\tautoindex off;\n\t}\n' /etc/nginx/sites-available/default
+sudo sed -i '38i\\tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t\tautoindex off;\n\t}\n' /etc/nginx/sites-available/default
 
 # restart nginx
 sudo service nginx restart
