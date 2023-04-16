@@ -21,6 +21,7 @@ def do_pack():
     except Exception:
         return None
 
+
 def do_deploy(archive_path):
     """
     Distributes archive files from exe 1 to server
@@ -46,12 +47,13 @@ def do_deploy(archive_path):
     except Exception:
         return False
 
+
 def deploy():
     """
     Archives and deploys static files
     """
     archive_path = do_pack()
     try:
-       return do_deploy(archive_path=archive_path)
-    except:
+        return (do_deploy(archive_path=archive_path))
+    except Exception:
         return False

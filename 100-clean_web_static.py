@@ -5,11 +5,10 @@ Deletes stale archives
 from os.path import isdir, exists, basename, join, sep, splitext
 from os import mkdir, listdir, unlink
 from datetime import datetime
-from fabric.api import env, local, put, run, runs_once
+from fabric.api import env, local, put, run
 env.hosts = ['3.84.239.19', '18.210.33.168']
 
 
-@runs_once
 def do_pack():
     """Archives static files"""
     if not isdir("versions"):
@@ -21,6 +20,7 @@ def do_pack():
         return dest
     except Exception:
         return None
+
 
 def do_deploy(archive_path):
     """
@@ -47,6 +47,7 @@ def do_deploy(archive_path):
     except Exception:
         return False
 
+
 def deploy():
     """
     Archives and deploys static files
@@ -57,9 +58,10 @@ def deploy():
     else:
         return False
 
+
 def do_clean(number=0):
     """
-    Deletes stale archives 
+    Deletes stale archives
     """
     arcs = listdir("versions/")
     arcs.sort(reverse=True)
@@ -72,4 +74,3 @@ def do_clean(number=0):
         arcs = []
     for arc in arcs:
         unlink(join("versions", arc))
-        
