@@ -13,7 +13,7 @@ echo -e "<html>\n <head>\n  <title>Test</title>\n <head>\n <body>\n  <p>Holberto
 if [ -L "/data/web_static/current" ]; then
     rm -rf /data/web_static/current
 fi
-ln -s /data/web_static/releases/test /data/web_static/current
+ln -s /data/web_static/releases/test/ /data/web_static/current
 # sudo sed -i '38i\\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t\tautoindex off;\n\t}\n' /etc/nginx/sites-available/default
 sudo service nginx restart
 exit 0
