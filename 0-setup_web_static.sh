@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # install nginx if not installed
-sudo apt-get -y update
-sudo apt-get -y install -y nginx
+apt-get -y update
+apt-get -y install -y nginx
 
 # create /data/ folder
-sudo mkdir -p /data/web_static/releases/test/ /data/web_static/shared
-sudo chown -R $USER:$USER /data/
+mkdir -p /data/web_static/releases/test/ /data/web_static/shared
+chown -R $USER:$USER /data/
 
 # create index.html
 echo -e "<html>\n  <head>\n\t<title>Nginx Test</title>\n  </head>\n  <body>\n\t<p>This is a dummy file to test Nginx<p>\n  </body>\n</html>" > /data/web_static/releases/test/index.html
