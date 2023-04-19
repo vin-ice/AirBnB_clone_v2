@@ -4,6 +4,7 @@ if [ ! -x "$(command -v nginx)" ]; then
     sudo apt-get -y update
     sudo apt-get -y install nginx
 fi
+sudo service nginx start
 # data directory
 sudo mkdir -p /data/web_static/releases/test/ /data/web_static/shared/
 # change ownership
