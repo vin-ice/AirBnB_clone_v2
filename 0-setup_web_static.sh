@@ -5,9 +5,9 @@ if [ ! -x "$(command -v nginx)" ]; then
     sudo apt-get -y install nginx
 fi
 # data directory
-mkdir -p /data/web_static/releases/test/ /data/web_static/shared/
+sudo mkdir -p /data/web_static/releases/test/ /data/web_static/shared/
 # change ownership
-chown -R "$USER":"$USER" /data/
+sudo chown -R "$USER":"$USER" /data/
 echo -e "<html>\n <head>\n  <title>Test</title>\n <head>\n <body>\n  <p>Holberton School</p>\n </body>\n</html>" > /data/web_static/releases/test/index.html
 # remove link
 if [ -L "/data/web_static/current" ]; then
