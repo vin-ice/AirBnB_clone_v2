@@ -2,7 +2,7 @@
 # installs nginx if absent
 if [ ! -x "$(command -v nginx)" ]; then
     sudo apt-get -y update
-    sudo apt-get -y nginx
+    sudo apt-get -y install nginx
 fi
 # data directory
 sudo mkdir -p /data/web_static/releases/test/ /data/web_static/shared/
