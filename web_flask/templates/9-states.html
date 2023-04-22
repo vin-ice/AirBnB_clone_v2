@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<HTML lang="en">
+    <HEAD>
+        <TITLE>HBNB</TITLE>
+    </HEAD>
+    <BODY>
+    {%- if states %}
+        <H1>States</H1>
+        {%- if states|length > 0 %}
+        <UL>
+        {%- for state in states|sort %}
+            {%- set s = state.split('.') %}
+            <LI>{{ s[1] }}: <B>{{ s[0] }}</B></LI>
+        {%- endfor %}
+        </UL>
+        {%- endif %}
+    {%- elif cities and state %}
+        <H1>State: {{ state }}</H1>
+        {%- if cities|length > 0 %}
+        <H1>Cities:</H1>
+        <UL>
+        {%- for city in cities|sort %}
+            {%- set c = city.split('.') %}
+            <LI>{{ c[1] }}: <B>{{ c[0] }}</B></LI>
+        {%- endfor %}
+        </UL>
+        {%- endif %}
+    {%- else %}
+        <H1>Not Found!</H1>
+    {%- endif %}
+    </BODY>
+</HTML>

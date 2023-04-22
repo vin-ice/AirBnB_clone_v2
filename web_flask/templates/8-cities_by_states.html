@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<HTML lang="en">
+    <HEAD>
+        <TITLE>HBNB</TITLE>
+    </HEAD>
+    <BODY>
+        <H1>States</H1>
+        {%- if states|length > 0 %}
+        <UL>
+        {%- for k, v in states|dictsort %}
+            {%- set key = k.split('.') %}
+            <LI>{{ key[1] }}: <B>{{ key[0] }}</B>
+            {%- if v|length > 0 %}
+                <UL>
+                {%- for city in v|sort %}
+                {%- set c = city.split('.') %}
+                    <LI>{{ c[1] }}: <B>{{ c[0] }}</B></LI>
+                {%- endfor %}
+                </UL>
+            {%- endif %}
+            </LI>
+        {%- endfor %}
+        </UL>
+        {%- endif %}
+    </BODY>
+</HTML>

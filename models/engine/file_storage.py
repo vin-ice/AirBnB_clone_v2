@@ -59,3 +59,7 @@ class FileStorage:
         """Deletes obj from __objects"""
         if obj is not None:
             del self.__objects['{}.{}'.format(type(obj).__name__, obj.id)]
+
+    def close(self):
+        """Desirailizes JSON file to objects"""
+        self.reload()
