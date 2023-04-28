@@ -19,7 +19,6 @@ def teardown_session(exception=None):
 def states_list():
     """Lists states"""
     states = storage.all(State).items()
-    teardown_session()
     states = {v.name: v.id for _, v in states}
     return render_template("7-states_list.html", states=states)
 

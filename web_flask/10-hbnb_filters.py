@@ -34,7 +34,6 @@ def hbnb_filters():
                       for _, state in states}
         if amenities:
             amenities = [amenity.name for _, amenity in amenities]
-    teardown_session()
     return render_template("10-hbnb_filters.html",
                            states=states,
                            amenities=amenities)

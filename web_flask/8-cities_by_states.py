@@ -20,7 +20,6 @@ def teardown_session(exception=None):
 def states_list():
     """Lists states"""
     states = storage.all(State).items()
-    teardown_session()
 
     if states:
         states = {v.name: v.id for _, v in states}
@@ -40,7 +39,6 @@ def cities_list():
             states = {"{}.{}".format(v.name, v.id):
                       ["{}.{}".format(c.name, c.id) for c in v.cities()]
                       for _, v in states}
-    teardown_session()
     return render_template("8-cities_by_states.html", states=states)
 
 
